@@ -1,0 +1,3681 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "# Data Preparation\n",
+    "\n",
+    "## Agenda\n",
+    "\n",
+    "- Overview of Data Science Process\n",
+    "\n",
+    "- What is Data Wrangling?\n",
+    "\n",
+    "- Data Formats (HTML, CSV/TSV, JSON)\n",
+    "\n",
+    "- Encodings\n",
+    "\n",
+    "- Data Manipulations with Pandas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## Data Science Process Overview\n",
+    "\n",
+    "<img src = \"images/datascience_process.png\" width =750/>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## What is data wrangling?\n",
+    "\n",
+    "Briefly data wrangling is the totality of the procedures that converts raw data into a format that is ready for modeling. \n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "source": [
+    "Some of the procedures that might involve with wrangling are:\n",
+    "\n",
+    "- Structuring \n",
+    "\n",
+    "- Cleaning\n",
+    "\n",
+    "- Enriching\n",
+    "\n",
+    "- Validating (Consistency, quality, security)\n",
+    "\n",
+    "- Publishing (documenting and releasing up to date version)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "source": [
+    "[Source](https://www.trifacta.com/data-wrangling/)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__Structured, semi-structured and unstructured data__"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "fragment"
+    }
+   },
+   "source": [
+    "__Structured Data__\n",
+    "\n",
+    "- Tables: Rows and columns, stored in SQL databases"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "source": [
+    "__Semi-Structured__\n",
+    "\n",
+    "- Don't reside in a relational database but they have some organization still\n",
+    "\n",
+    "- With minimal effort they can be stored in a table.\n",
+    "\n",
+    "- There is some ease to compute and work with them.\n",
+    "\n",
+    "- CSV, XML, JSON"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "source": [
+    "__Unstructured Data__\n",
+    "\n",
+    "- Text, emails, tweets, youtube videos, audio files, webpages, satellite images\n",
+    "- jpg, pgn, txt, mp4"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "### Brief Explanation for Some Data Formats\n",
+    "\n",
+    "- JSON, CSV, TSV"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__JSON Format__\n",
+    "\n",
+    "[Data is Beautiful](https://www.reddit.com/r/dataisbeautiful/)\n",
+    "\n",
+    "[Data is Beautiful?](https://json.reddit.com/r/dataisbeautiful/)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 308,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'kind': 't3',\n",
+       " 'data': {'approved_at_utc': None,\n",
+       "  'subreddit': 'dataisbeautiful',\n",
+       "  'selftext': '',\n",
+       "  'author_fullname': 't2_4eb7iibn',\n",
+       "  'saved': False,\n",
+       "  'mod_reason_title': None,\n",
+       "  'gilded': 0,\n",
+       "  'clicked': False,\n",
+       "  'title': '[OC] Monte Carlo simulation to determine pi',\n",
+       "  'link_flair_richtext': [],\n",
+       "  'subreddit_name_prefixed': 'r/dataisbeautiful',\n",
+       "  'hidden': False,\n",
+       "  'pwls': 6,\n",
+       "  'link_flair_css_class': 'oc',\n",
+       "  'downs': 0,\n",
+       "  'thumbnail_height': 140,\n",
+       "  'top_awarded_type': None,\n",
+       "  'hide_score': False,\n",
+       "  'name': 't3_iq0a2a',\n",
+       "  'quarantine': False,\n",
+       "  'link_flair_text_color': 'dark',\n",
+       "  'upvote_ratio': 0.97,\n",
+       "  'author_flair_background_color': None,\n",
+       "  'subreddit_type': 'public',\n",
+       "  'ups': 614,\n",
+       "  'total_awards_received': 1,\n",
+       "  'media_embed': {},\n",
+       "  'thumbnail_width': 140,\n",
+       "  'author_flair_template_id': '1c7d62a6-099d-11e7-9b3c-0ee50bfd7a4c',\n",
+       "  'is_original_content': False,\n",
+       "  'user_reports': [],\n",
+       "  'secure_media': {'reddit_video': {'fallback_url': 'https://v.redd.it/8oe8vyvwiam51/DASH_720.mp4?source=fallback',\n",
+       "    'height': 720,\n",
+       "    'width': 720,\n",
+       "    'scrubber_media_url': 'https://v.redd.it/8oe8vyvwiam51/DASH_96.mp4',\n",
+       "    'dash_url': 'https://v.redd.it/8oe8vyvwiam51/DASHPlaylist.mpd?a=1602346567%2CNjY3ZmZlYmJjZDQ2ZTU5MmI4YzA4MTlkODEyMjgwNTgwZDRiZjkyZjI1ODA1MjYxYTFhNDNhM2FjNmVmZjYwZg%3D%3D&amp;v=1&amp;f=sd',\n",
+       "    'duration': 36,\n",
+       "    'hls_url': 'https://v.redd.it/8oe8vyvwiam51/HLSPlaylist.m3u8?a=1602346567%2CNmViZmY1NWI0NDgwOGQ4ZjVkODdmNWM0NGQwZjFiYzhiZTZmNTY4YjhjMjVkMDQ0YmMzM2NkMzJkMzQyMzNhNA%3D%3D&amp;v=1&amp;f=sd',\n",
+       "    'is_gif': False,\n",
+       "    'transcoding_status': 'completed'}},\n",
+       "  'is_reddit_media_domain': True,\n",
+       "  'is_meta': False,\n",
+       "  'category': None,\n",
+       "  'secure_media_embed': {},\n",
+       "  'link_flair_text': 'OC',\n",
+       "  'can_mod_post': False,\n",
+       "  'score': 614,\n",
+       "  'approved_by': None,\n",
+       "  'author_premium': False,\n",
+       "  'thumbnail': 'https://b.thumbs.redditmedia.com/2ZCpIZhtu-EA381l_sCtdHAsjjMKxuw-YXTMbIMXzKc.jpg',\n",
+       "  'edited': False,\n",
+       "  'author_flair_css_class': 'ocmaker',\n",
+       "  'author_flair_richtext': [],\n",
+       "  'gildings': {},\n",
+       "  'post_hint': 'hosted:video',\n",
+       "  'content_categories': None,\n",
+       "  'is_self': False,\n",
+       "  'mod_note': None,\n",
+       "  'created': 1599760133.0,\n",
+       "  'link_flair_type': 'text',\n",
+       "  'wls': 6,\n",
+       "  'removed_by_category': None,\n",
+       "  'banned_by': None,\n",
+       "  'author_flair_type': 'text',\n",
+       "  'domain': 'v.redd.it',\n",
+       "  'allow_live_comments': False,\n",
+       "  'selftext_html': None,\n",
+       "  'likes': None,\n",
+       "  'suggested_sort': None,\n",
+       "  'banned_at_utc': None,\n",
+       "  'url_overridden_by_dest': 'https://v.redd.it/8oe8vyvwiam51',\n",
+       "  'view_count': None,\n",
+       "  'archived': False,\n",
+       "  'no_follow': False,\n",
+       "  'is_crosspostable': False,\n",
+       "  'pinned': False,\n",
+       "  'over_18': False,\n",
+       "  'preview': {'images': [{'source': {'url': 'https://external-preview.redd.it/oA4hdBd4r_Kite44UHa1WjMONCxUCYkwHMGBlAm_0iQ.png?format=pjpg&amp;auto=webp&amp;s=791eacdd58be8dc15d320242a22cdf5ba4427c0a',\n",
+       "      'width': 720,\n",
+       "      'height': 720},\n",
+       "     'resolutions': [{'url': 'https://external-preview.redd.it/oA4hdBd4r_Kite44UHa1WjMONCxUCYkwHMGBlAm_0iQ.png?width=108&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;s=459f0878a8b2f8a5dbdce86e30a1947b1927d4ca',\n",
+       "       'width': 108,\n",
+       "       'height': 108},\n",
+       "      {'url': 'https://external-preview.redd.it/oA4hdBd4r_Kite44UHa1WjMONCxUCYkwHMGBlAm_0iQ.png?width=216&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;s=627db2e387bcaff50bf6264a1864883efe18f3e7',\n",
+       "       'width': 216,\n",
+       "       'height': 216},\n",
+       "      {'url': 'https://external-preview.redd.it/oA4hdBd4r_Kite44UHa1WjMONCxUCYkwHMGBlAm_0iQ.png?width=320&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;s=914e7857bb689e7b2258cd4419a2f8ff6c8c4e95',\n",
+       "       'width': 320,\n",
+       "       'height': 320},\n",
+       "      {'url': 'https://external-preview.redd.it/oA4hdBd4r_Kite44UHa1WjMONCxUCYkwHMGBlAm_0iQ.png?width=640&amp;crop=smart&amp;format=pjpg&amp;auto=webp&amp;s=f612b1904a8108dda4882aa0cd004f5f5544ff7d',\n",
+       "       'width': 640,\n",
+       "       'height': 640}],\n",
+       "     'variants': {},\n",
+       "     'id': 'uJeBsBSXz6ba8qq_LsRCJz_0c1Sf93FEPJMTvEhO694'}],\n",
+       "   'enabled': False},\n",
+       "  'all_awardings': [{'giver_coin_reward': 0,\n",
+       "    'subreddit_id': None,\n",
+       "    'is_new': False,\n",
+       "    'days_of_drip_extension': 0,\n",
+       "    'coin_price': 50,\n",
+       "    'id': 'award_02d9ab2c-162e-4c01-8438-317a016ed3d9',\n",
+       "    'penny_donate': 0,\n",
+       "    'award_sub_type': 'GLOBAL',\n",
+       "    'coin_reward': 0,\n",
+       "    'icon_url': 'https://i.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png',\n",
+       "    'days_of_premium': 0,\n",
+       "    'tiers_by_required_awardings': None,\n",
+       "    'resized_icons': [{'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=16&amp;height=16&amp;auto=webp&amp;s=92e96be1dbd278dc987fbd9acc1bd5078566f254',\n",
+       "      'width': 16,\n",
+       "      'height': 16},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=32&amp;height=32&amp;auto=webp&amp;s=83e14655f2b162b295f7d2c7058b9ad94cf8b73c',\n",
+       "      'width': 32,\n",
+       "      'height': 32},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=48&amp;height=48&amp;auto=webp&amp;s=83038a4d6181d3c8f5107dbca4ddb735ca6c2231',\n",
+       "      'width': 48,\n",
+       "      'height': 48},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=64&amp;height=64&amp;auto=webp&amp;s=3c4e39a7664d799ff50f32e9a3f96c3109d2e266',\n",
+       "      'width': 64,\n",
+       "      'height': 64},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=128&amp;height=128&amp;auto=webp&amp;s=390bf9706b8e1a6215716ebcf6363373f125c339',\n",
+       "      'width': 128,\n",
+       "      'height': 128}],\n",
+       "    'icon_width': 2048,\n",
+       "    'static_icon_width': 2048,\n",
+       "    'start_date': None,\n",
+       "    'is_enabled': True,\n",
+       "    'awardings_required_to_grant_benefits': None,\n",
+       "    'description': \"I'm in this with you.\",\n",
+       "    'end_date': None,\n",
+       "    'subreddit_coin_reward': 0,\n",
+       "    'count': 1,\n",
+       "    'static_icon_height': 2048,\n",
+       "    'name': 'Take My Energy',\n",
+       "    'resized_static_icons': [{'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=16&amp;height=16&amp;auto=webp&amp;s=92e96be1dbd278dc987fbd9acc1bd5078566f254',\n",
+       "      'width': 16,\n",
+       "      'height': 16},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=32&amp;height=32&amp;auto=webp&amp;s=83e14655f2b162b295f7d2c7058b9ad94cf8b73c',\n",
+       "      'width': 32,\n",
+       "      'height': 32},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=48&amp;height=48&amp;auto=webp&amp;s=83038a4d6181d3c8f5107dbca4ddb735ca6c2231',\n",
+       "      'width': 48,\n",
+       "      'height': 48},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=64&amp;height=64&amp;auto=webp&amp;s=3c4e39a7664d799ff50f32e9a3f96c3109d2e266',\n",
+       "      'width': 64,\n",
+       "      'height': 64},\n",
+       "     {'url': 'https://preview.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png?width=128&amp;height=128&amp;auto=webp&amp;s=390bf9706b8e1a6215716ebcf6363373f125c339',\n",
+       "      'width': 128,\n",
+       "      'height': 128}],\n",
+       "    'icon_format': 'PNG',\n",
+       "    'icon_height': 2048,\n",
+       "    'penny_price': 0,\n",
+       "    'award_type': 'global',\n",
+       "    'static_icon_url': 'https://i.redd.it/award_images/t5_22cerq/898sygoknoo41_TakeMyEnergy.png'}],\n",
+       "  'awarders': [],\n",
+       "  'media_only': False,\n",
+       "  'can_gild': False,\n",
+       "  'spoiler': False,\n",
+       "  'locked': False,\n",
+       "  'author_flair_text': 'OC: 1',\n",
+       "  'treatment_tags': [],\n",
+       "  'visited': False,\n",
+       "  'removed_by': None,\n",
+       "  'num_reports': None,\n",
+       "  'distinguished': None,\n",
+       "  'subreddit_id': 't5_2tk95',\n",
+       "  'mod_reason_by': None,\n",
+       "  'removal_reason': None,\n",
+       "  'link_flair_background_color': '',\n",
+       "  'id': 'iq0a2a',\n",
+       "  'is_robot_indexable': True,\n",
+       "  'report_reasons': None,\n",
+       "  'author': 'MarbleScience',\n",
+       "  'discussion_type': None,\n",
+       "  'num_comments': 61,\n",
+       "  'send_replies': True,\n",
+       "  'whitelist_status': 'all_ads',\n",
+       "  'contest_mode': False,\n",
+       "  'mod_reports': [],\n",
+       "  'author_patreon_flair': False,\n",
+       "  'author_flair_text_color': 'dark',\n",
+       "  'permalink': '/r/dataisbeautiful/comments/iq0a2a/oc_monte_carlo_simulation_to_determine_pi/',\n",
+       "  'parent_whitelist_status': 'all_ads',\n",
+       "  'stickied': False,\n",
+       "  'url': 'https://v.redd.it/8oe8vyvwiam51',\n",
+       "  'subreddit_subscribers': 14941084,\n",
+       "  'created_utc': 1599731333.0,\n",
+       "  'num_crossposts': 1,\n",
+       "  'media': {'reddit_video': {'fallback_url': 'https://v.redd.it/8oe8vyvwiam51/DASH_720.mp4?source=fallback',\n",
+       "    'height': 720,\n",
+       "    'width': 720,\n",
+       "    'scrubber_media_url': 'https://v.redd.it/8oe8vyvwiam51/DASH_96.mp4',\n",
+       "    'dash_url': 'https://v.redd.it/8oe8vyvwiam51/DASHPlaylist.mpd?a=1602346567%2CNjY3ZmZlYmJjZDQ2ZTU5MmI4YzA4MTlkODEyMjgwNTgwZDRiZjkyZjI1ODA1MjYxYTFhNDNhM2FjNmVmZjYwZg%3D%3D&amp;v=1&amp;f=sd',\n",
+       "    'duration': 36,\n",
+       "    'hls_url': 'https://v.redd.it/8oe8vyvwiam51/HLSPlaylist.m3u8?a=1602346567%2CNmViZmY1NWI0NDgwOGQ4ZjVkODdmNWM0NGQwZjFiYzhiZTZmNTY4YjhjMjVkMDQ0YmMzM2NkMzJkMzQyMzNhNA%3D%3D&amp;v=1&amp;f=sd',\n",
+       "    'is_gif': False,\n",
+       "    'transcoding_status': 'completed'}},\n",
+       "  'is_video': True}}"
+      ]
+     },
+     "execution_count": 308,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import json\n",
+    "f = open(\"../data/dataisbeautiful.json\")\n",
+    "\n",
+    "data = json.load(f)\n",
+    "\n",
+    "\n",
+    "data['data']['children'][2]\n",
+    "## play with data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 226,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "dict_keys(['approved_at_utc', 'subreddit', 'selftext', 'author_fullname', 'saved', 'mod_reason_title', 'gilded', 'clicked', 'title', 'link_flair_richtext', 'subreddit_name_prefixed', 'hidden', 'pwls', 'link_flair_css_class', 'downs', 'thumbnail_height', 'top_awarded_type', 'hide_score', 'name', 'quarantine', 'link_flair_text_color', 'upvote_ratio', 'author_flair_background_color', 'subreddit_type', 'ups', 'total_awards_received', 'media_embed', 'thumbnail_width', 'author_flair_template_id', 'is_original_content', 'user_reports', 'secure_media', 'is_reddit_media_domain', 'is_meta', 'category', 'secure_media_embed', 'link_flair_text', 'can_mod_post', 'score', 'approved_by', 'author_premium', 'thumbnail', 'edited', 'author_flair_css_class', 'author_flair_richtext', 'gildings', 'post_hint', 'content_categories', 'is_self', 'mod_note', 'created', 'link_flair_type', 'wls', 'removed_by_category', 'banned_by', 'author_flair_type', 'domain', 'allow_live_comments', 'selftext_html', 'likes', 'suggested_sort', 'banned_at_utc', 'url_overridden_by_dest', 'view_count', 'archived', 'no_follow', 'is_crosspostable', 'pinned', 'over_18', 'preview', 'all_awardings', 'awarders', 'media_only', 'can_gild', 'spoiler', 'locked', 'author_flair_text', 'treatment_tags', 'visited', 'removed_by', 'num_reports', 'distinguished', 'subreddit_id', 'mod_reason_by', 'removal_reason', 'link_flair_background_color', 'id', 'is_robot_indexable', 'report_reasons', 'author', 'discussion_type', 'num_comments', 'send_replies', 'whitelist_status', 'contest_mode', 'mod_reports', 'author_patreon_flair', 'author_flair_text_color', 'permalink', 'parent_whitelist_status', 'stickied', 'url', 'subreddit_subscribers', 'created_utc', 'num_crossposts', 'media', 'is_video'])"
+      ]
+     },
+     "execution_count": 226,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data['data']['children'][1]['data'].keys()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 312,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>kind</th>\n",
+       "      <th>data</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>after</th>\n",
+       "      <td>Listing</td>\n",
+       "      <td>t3_iq12w3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>before</th>\n",
+       "      <td>Listing</td>\n",
+       "      <td>None</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>children</th>\n",
+       "      <td>Listing</td>\n",
+       "      <td>[{'kind': 't3', 'data': {'approved_at_utc': No...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>dist</th>\n",
+       "      <td>Listing</td>\n",
+       "      <td>26</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>modhash</th>\n",
+       "      <td>Listing</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             kind                                               data\n",
+       "after     Listing                                          t3_iq12w3\n",
+       "before    Listing                                               None\n",
+       "children  Listing  [{'kind': 't3', 'data': {'approved_at_utc': No...\n",
+       "dist      Listing                                                 26\n",
+       "modhash   Listing                                                   "
+      ]
+     },
+     "execution_count": 312,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## We can also use pandas to parse json files\n",
+    "\n",
+    "import pandas as pd\n",
+    "\n",
+    "dataisbeautiful_df = pd.read_json(\"../data/dataisbeautiful.json\")\n",
+    "\n",
+    "dataisbeautiful_df.head(5)\n",
+    "\n",
+    "## try to load iris.json from \"data\" folder"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 230,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>sepalLength</th>\n",
+       "      <th>sepalWidth</th>\n",
+       "      <th>petalLength</th>\n",
+       "      <th>petalWidth</th>\n",
+       "      <th>species</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>5.1</td>\n",
+       "      <td>3.5</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>4.9</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>4.7</td>\n",
+       "      <td>3.2</td>\n",
+       "      <td>1.3</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>4.6</td>\n",
+       "      <td>3.1</td>\n",
+       "      <td>1.5</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5.0</td>\n",
+       "      <td>3.6</td>\n",
+       "      <td>1.4</td>\n",
+       "      <td>0.2</td>\n",
+       "      <td>setosa</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>145</th>\n",
+       "      <td>6.7</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.2</td>\n",
+       "      <td>2.3</td>\n",
+       "      <td>virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>146</th>\n",
+       "      <td>6.3</td>\n",
+       "      <td>2.5</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>1.9</td>\n",
+       "      <td>virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>147</th>\n",
+       "      <td>6.5</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.2</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>148</th>\n",
+       "      <td>6.2</td>\n",
+       "      <td>3.4</td>\n",
+       "      <td>5.4</td>\n",
+       "      <td>2.3</td>\n",
+       "      <td>virginica</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>149</th>\n",
+       "      <td>5.9</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>5.1</td>\n",
+       "      <td>1.8</td>\n",
+       "      <td>virginica</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>150 rows × 5 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     sepalLength  sepalWidth  petalLength  petalWidth    species\n",
+       "0            5.1         3.5          1.4         0.2     setosa\n",
+       "1            4.9         3.0          1.4         0.2     setosa\n",
+       "2            4.7         3.2          1.3         0.2     setosa\n",
+       "3            4.6         3.1          1.5         0.2     setosa\n",
+       "4            5.0         3.6          1.4         0.2     setosa\n",
+       "..           ...         ...          ...         ...        ...\n",
+       "145          6.7         3.0          5.2         2.3  virginica\n",
+       "146          6.3         2.5          5.0         1.9  virginica\n",
+       "147          6.5         3.0          5.2         2.0  virginica\n",
+       "148          6.2         3.4          5.4         2.3  virginica\n",
+       "149          5.9         3.0          5.1         1.8  virginica\n",
+       "\n",
+       "[150 rows x 5 columns]"
+      ]
+     },
+     "execution_count": 230,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\n",
+    "import pandas as pd\n",
+    "pd.read_json(\"../data/iris.json\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__CSV/TSV Files__\n",
+    "\n",
+    "- What is CSV file?\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 314,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>France</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>4444.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1096</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>18346.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1090</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>14 Jul 1930 - 12:45</td>\n",
+       "      <td>Group 2</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Yugoslavia</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td></td>\n",
+       "      <td>24059.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>TEJADA Anibal (URU)</td>\n",
+       "      <td>VALLARINO Ricardo (URU)</td>\n",
+       "      <td>BALWAY Thomas (FRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1093</td>\n",
+       "      <td>YUG</td>\n",
+       "      <td>BRA</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Year              Datetime    Stage         Stadium         City  \\\n",
+       "0  1930  13 Jul 1930 - 15:00   Group 1         Pocitos  Montevideo    \n",
+       "1  1930  13 Jul 1930 - 15:00   Group 4  Parque Central  Montevideo    \n",
+       "2  1930  14 Jul 1930 - 12:45   Group 2  Parque Central  Montevideo    \n",
+       "\n",
+       "  Home Team Name  Home Team Goals  Away Team Goals Away Team Name  \\\n",
+       "0         France                4                1         Mexico   \n",
+       "1            USA                3                0        Belgium   \n",
+       "2     Yugoslavia                2                1         Brazil   \n",
+       "\n",
+       "  Win conditions  Attendance  Half-time Home Goals  Half-time Away Goals  \\\n",
+       "0                     4444.0                     3                     0   \n",
+       "1                    18346.0                     2                     0   \n",
+       "2                    24059.0                     2                     0   \n",
+       "\n",
+       "                  Referee               Assistant 1            Assistant 2  \\\n",
+       "0  LOMBARDI Domingo (URU)     CRISTOPHE Henry (BEL)    REGO Gilberto (BRA)   \n",
+       "1       MACIAS Jose (ARG)  MATEUCCI Francisco (URU)  WARNKEN Alberto (CHI)   \n",
+       "2     TEJADA Anibal (URU)   VALLARINO Ricardo (URU)    BALWAY Thomas (FRA)   \n",
+       "\n",
+       "   RoundID  MatchID Home Team Initials Away Team Initials  \n",
+       "0      201     1096                FRA                MEX  \n",
+       "1      201     1090                USA                BEL  \n",
+       "2      201     1093                YUG                BRA  "
+      ]
+     },
+     "execution_count": 314,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## Similary we can use pandas to parse and manipulate csv files\n",
+    "world_cup = pd.read_csv(\"../data/world_cup.csv\")\n",
+    "## try to load \"world_cup.csv\" from \"data\" folder\n",
+    "\n",
+    "world_cup.head(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "world_cup = pd.read_csv(\"../data/world_cup.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 233,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>France</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>4444.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1096</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>18346.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1090</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Year              Datetime    Stage         Stadium         City  \\\n",
+       "0  1930  13 Jul 1930 - 15:00   Group 1         Pocitos  Montevideo    \n",
+       "1  1930  13 Jul 1930 - 15:00   Group 4  Parque Central  Montevideo    \n",
+       "\n",
+       "  Home Team Name  Home Team Goals  Away Team Goals Away Team Name  \\\n",
+       "0         France                4                1         Mexico   \n",
+       "1            USA                3                0        Belgium   \n",
+       "\n",
+       "  Win conditions  Attendance  Half-time Home Goals  Half-time Away Goals  \\\n",
+       "0                     4444.0                     3                     0   \n",
+       "1                    18346.0                     2                     0   \n",
+       "\n",
+       "                  Referee               Assistant 1            Assistant 2  \\\n",
+       "0  LOMBARDI Domingo (URU)     CRISTOPHE Henry (BEL)    REGO Gilberto (BRA)   \n",
+       "1       MACIAS Jose (ARG)  MATEUCCI Francisco (URU)  WARNKEN Alberto (CHI)   \n",
+       "\n",
+       "   RoundID  MatchID Home Team Initials Away Team Initials  \n",
+       "0      201     1096                FRA                MEX  \n",
+       "1      201     1090                USA                BEL  "
+      ]
+     },
+     "execution_count": 233,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "world_cup.head(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__TSV Files__"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 316,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>UserID</th>\n",
+       "      <th>UserAgentID</th>\n",
+       "      <th>UserAgentOSID</th>\n",
+       "      <th>UserDeviceID</th>\n",
+       "      <th>UserAgentFamilyID</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "      <td>44073</td>\n",
+       "      <td>30</td>\n",
+       "      <td>2019</td>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2</td>\n",
+       "      <td>12505</td>\n",
+       "      <td>20</td>\n",
+       "      <td>2014</td>\n",
+       "      <td>85</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>3</td>\n",
+       "      <td>24256</td>\n",
+       "      <td>20</td>\n",
+       "      <td>2014</td>\n",
+       "      <td>64</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   UserID  UserAgentID  UserAgentOSID  UserDeviceID  UserAgentFamilyID\n",
+       "0       1        44073             30          2019                  9\n",
+       "1       2        12505             20          2014                 85\n",
+       "2       3        24256             20          2014                 64"
+      ]
+     },
+     "execution_count": 316,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## use pandas to load and work with a tsv file\n",
+    "\n",
+    "tsv_df = pd.read_csv(\"../data/UserInfo.tsv\", sep= \"\\t\")\n",
+    "\n",
+    "tsv_df.head(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 236,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>UserID</th>\n",
+       "      <th>UserAgentID</th>\n",
+       "      <th>UserAgentOSID</th>\n",
+       "      <th>UserDeviceID</th>\n",
+       "      <th>UserAgentFamilyID</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "      <td>44073</td>\n",
+       "      <td>30</td>\n",
+       "      <td>2019</td>\n",
+       "      <td>9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2</td>\n",
+       "      <td>12505</td>\n",
+       "      <td>20</td>\n",
+       "      <td>2014</td>\n",
+       "      <td>85</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   UserID  UserAgentID  UserAgentOSID  UserDeviceID  UserAgentFamilyID\n",
+       "0       1        44073             30          2019                  9\n",
+       "1       2        12505             20          2014                 85"
+      ]
+     },
+     "execution_count": 236,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "tsv_df = pd.read_csv(\"../data/UserInfo.tsv\", sep= \"\\t\")\n",
+    "tsv_df.head(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "### Encoding\n",
+    "\n",
+    "- Computers store data as a sequences of ones and zeros.\n",
+    "\n",
+    "- Humans uses other symbols to communicate (letters, emojis, etc.)\n",
+    "\n",
+    "- Then natural question arises: How to encode \"ç\" character in Turkish into computer language."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__Solutions to encoding Problem__\n",
+    "\n",
+    "- ASCII (American Standard Code for Information Change)\n",
+    "\n",
+    "    - Uses 8 bits.\n",
+    "    - Has only 128 characters: 95 english letters and 33 control codes.\n",
+    "    - Limited!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "- Unicode\n",
+    "\n",
+    "    - ASCII was not enough!\n",
+    "    - Uses 16 bits\n",
+    "    \n",
+    "\n",
+    "Unicode is an information technology (IT) standard for the consistent encoding, representation, and handling of text expressed in most of the world's writing systems. The standard is maintained by the Unicode Consortium, and as of March 2020, there is a repertoire of 143,859 characters, with Unicode 13.0 (these characters consist of 143,696 graphic characters and 163 format characters) covering 154 modern and historic scripts, as well as multiple symbol sets and emoji. \n",
+    "\n",
+    "\n",
+    "__Also check Utf-8 and Utf-16__"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 326,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>id</th>\n",
+       "      <th>name</th>\n",
+       "      <th>date</th>\n",
+       "      <th>manner_of_death</th>\n",
+       "      <th>armed</th>\n",
+       "      <th>age</th>\n",
+       "      <th>gender</th>\n",
+       "      <th>race</th>\n",
+       "      <th>city</th>\n",
+       "      <th>state</th>\n",
+       "      <th>signs_of_mental_illness</th>\n",
+       "      <th>threat_level</th>\n",
+       "      <th>flee</th>\n",
+       "      <th>body_camera</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Tim Elliot</td>\n",
+       "      <td>02/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>gun</td>\n",
+       "      <td>53.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>A</td>\n",
+       "      <td>Shelton</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>True</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Lewis Lee Lembke</td>\n",
+       "      <td>02/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>gun</td>\n",
+       "      <td>47.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>W</td>\n",
+       "      <td>Aloha</td>\n",
+       "      <td>OR</td>\n",
+       "      <td>False</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>5</td>\n",
+       "      <td>John Paul Quintero</td>\n",
+       "      <td>03/01/15</td>\n",
+       "      <td>shot and Tasered</td>\n",
+       "      <td>unarmed</td>\n",
+       "      <td>23.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>H</td>\n",
+       "      <td>Wichita</td>\n",
+       "      <td>KS</td>\n",
+       "      <td>False</td>\n",
+       "      <td>other</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>8</td>\n",
+       "      <td>Matthew Hoffman</td>\n",
+       "      <td>04/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>toy weapon</td>\n",
+       "      <td>32.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>W</td>\n",
+       "      <td>San Francisco</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>True</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>9</td>\n",
+       "      <td>Michael Rodriguez</td>\n",
+       "      <td>04/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>nail gun</td>\n",
+       "      <td>39.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>H</td>\n",
+       "      <td>Evans</td>\n",
+       "      <td>CO</td>\n",
+       "      <td>False</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   id                name      date   manner_of_death       armed   age  \\\n",
+       "0   3          Tim Elliot  02/01/15              shot         gun  53.0   \n",
+       "1   4    Lewis Lee Lembke  02/01/15              shot         gun  47.0   \n",
+       "2   5  John Paul Quintero  03/01/15  shot and Tasered     unarmed  23.0   \n",
+       "3   8     Matthew Hoffman  04/01/15              shot  toy weapon  32.0   \n",
+       "4   9   Michael Rodriguez  04/01/15              shot    nail gun  39.0   \n",
+       "\n",
+       "  gender race           city state  signs_of_mental_illness threat_level  \\\n",
+       "0      M    A        Shelton    WA                     True       attack   \n",
+       "1      M    W          Aloha    OR                    False       attack   \n",
+       "2      M    H        Wichita    KS                    False        other   \n",
+       "3      M    W  San Francisco    CA                     True       attack   \n",
+       "4      M    H          Evans    CO                    False       attack   \n",
+       "\n",
+       "          flee  body_camera  \n",
+       "0  Not fleeing        False  \n",
+       "1  Not fleeing        False  \n",
+       "2  Not fleeing        False  \n",
+       "3  Not fleeing        False  \n",
+       "4  Not fleeing        False  "
+      ]
+     },
+     "execution_count": 326,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## here lets try to use pd.read_csv method for \"PoliceShootingUS.csv\"\n",
+    "\n",
+    "police_df = pd.read_csv(\"../data/PoliceShootingsUS.csv\", encoding = \"windows-1252\");\n",
+    "police_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 241,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>id</th>\n",
+       "      <th>name</th>\n",
+       "      <th>date</th>\n",
+       "      <th>manner_of_death</th>\n",
+       "      <th>armed</th>\n",
+       "      <th>age</th>\n",
+       "      <th>gender</th>\n",
+       "      <th>race</th>\n",
+       "      <th>city</th>\n",
+       "      <th>state</th>\n",
+       "      <th>signs_of_mental_illness</th>\n",
+       "      <th>threat_level</th>\n",
+       "      <th>flee</th>\n",
+       "      <th>body_camera</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>3</td>\n",
+       "      <td>Tim Elliot</td>\n",
+       "      <td>02/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>gun</td>\n",
+       "      <td>53.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>A</td>\n",
+       "      <td>Shelton</td>\n",
+       "      <td>WA</td>\n",
+       "      <td>True</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>4</td>\n",
+       "      <td>Lewis Lee Lembke</td>\n",
+       "      <td>02/01/15</td>\n",
+       "      <td>shot</td>\n",
+       "      <td>gun</td>\n",
+       "      <td>47.0</td>\n",
+       "      <td>M</td>\n",
+       "      <td>W</td>\n",
+       "      <td>Aloha</td>\n",
+       "      <td>OR</td>\n",
+       "      <td>False</td>\n",
+       "      <td>attack</td>\n",
+       "      <td>Not fleeing</td>\n",
+       "      <td>False</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   id              name      date manner_of_death armed   age gender race  \\\n",
+       "0   3        Tim Elliot  02/01/15            shot   gun  53.0      M    A   \n",
+       "1   4  Lewis Lee Lembke  02/01/15            shot   gun  47.0      M    W   \n",
+       "\n",
+       "      city state  signs_of_mental_illness threat_level         flee  \\\n",
+       "0  Shelton    WA                     True       attack  Not fleeing   \n",
+       "1    Aloha    OR                    False       attack  Not fleeing   \n",
+       "\n",
+       "   body_camera  \n",
+       "0        False  \n",
+       "1        False  "
+      ]
+     },
+     "execution_count": 241,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "police_df = pd.read_csv(\"../data/PoliceShootingsUS.csv\", encoding = \"Windows-1252\")\n",
+    "police_df.head(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__How to make this process more functional?__\n",
+    "\n",
+    "- Chardet library"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 324,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'encoding': 'Windows-1252', 'confidence': 0.73, 'language': ''}"
+      ]
+     },
+     "execution_count": 324,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import chardet\n",
+    "\n",
+    "with open(\"../data/PoliceShootingsUS.csv\", \"rb\") as fraw:\n",
+    "    file_content = fraw.read()\n",
+    "\n",
+    "\n",
+    "file_content\n",
+    "\n",
+    "chardet.detect(file_content)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## Some Notes on Hw-1\n",
+    "\n",
+    "- it's due on 09/17 Thursday at 4:30 PM\n",
+    "\n",
+    "- Assignment: Load, clean and explore a dataset of your choice with Python\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "### Deliverables\n",
+    "\n",
+    "__Github Repo__\n",
+    "\n",
+    "- Includes ReadMe,notebooks and code(if applicable), license\n",
+    "\n",
+    "- In ReadMe, explain briefly your project, your goals and methods. Also explain how and where did you get the data. Finally in ReadMe you should describe how a potential reader should navigate in this Github Repo.\n",
+    "\n",
+    "__Jupyter Notebook - Report__\n",
+    "\n",
+    "- Clean, narrated and well documented/commented code cells\n",
+    "\n",
+    "- Submitted through Github\n",
+    "\n",
+    "- Includes the goal of the project and questions attempted to solve.\n",
+    "\n",
+    "- Includes your work on: Checking missing values, inconsistencies, outliers, sanity checks.\n",
+    "\n",
+    "- Includes visualizations that help us to understand your solution or give insight about the problem.\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "### Example Projects\n",
+    "\n",
+    "[Alphonso Woodbury Github](https://github.com/a-woodbury/A-House-with-a-View)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## Part-II Data Manipulation With Pandas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 361,
+   "metadata": {
+    "scrolled": true,
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>19 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Estadio Centenario</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Argentina</td>\n",
+       "      <td>6</td>\n",
+       "      <td>3</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>42100.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>SAUCEDO Ulises (BOL)</td>\n",
+       "      <td>ALONSO Gualberto (URU)</td>\n",
+       "      <td>RADULESCU Constantin (ROU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1086</td>\n",
+       "      <td>ARG</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>20 Jul 1930 - 13:00</td>\n",
+       "      <td>Group 2</td>\n",
+       "      <td>Estadio Centenario</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Bolivia</td>\n",
+       "      <td></td>\n",
+       "      <td>25466.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>BALWAY Thomas (FRA)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>VALLEJO Gaspar (MEX)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1091</td>\n",
+       "      <td>BRA</td>\n",
+       "      <td>BOL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>12</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>20 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Estadio Centenario</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Paraguay</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>12000.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>VALLARINO Ricardo (URU)</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1089</td>\n",
+       "      <td>PAR</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>21 Jul 1930 - 14:50</td>\n",
+       "      <td>Group 3</td>\n",
+       "      <td>Estadio Centenario</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Uruguay</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Romania</td>\n",
+       "      <td></td>\n",
+       "      <td>70022.0</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>SAUCEDO Ulises (BOL)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1100</td>\n",
+       "      <td>URU</td>\n",
+       "      <td>ROU</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>14</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>22 Jul 1930 - 14:45</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Estadio Centenario</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Argentina</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Chile</td>\n",
+       "      <td></td>\n",
+       "      <td>41459.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>LANGENUS Jean (BEL)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>SAUCEDO Ulises (BOL)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1084</td>\n",
+       "      <td>ARG</td>\n",
+       "      <td>CHI</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    Year              Datetime    Stage             Stadium         City  \\\n",
+       "10  1930  19 Jul 1930 - 15:00   Group 1  Estadio Centenario  Montevideo    \n",
+       "11  1930  20 Jul 1930 - 13:00   Group 2  Estadio Centenario  Montevideo    \n",
+       "12  1930  20 Jul 1930 - 15:00   Group 4  Estadio Centenario  Montevideo    \n",
+       "13  1930  21 Jul 1930 - 14:50   Group 3  Estadio Centenario  Montevideo    \n",
+       "14  1930  22 Jul 1930 - 14:45   Group 1  Estadio Centenario  Montevideo    \n",
+       "\n",
+       "   Home Team Name  Home Team Goals  Away Team Goals Away Team Name  \\\n",
+       "10      Argentina                6                3         Mexico   \n",
+       "11         Brazil                4                0        Bolivia   \n",
+       "12       Paraguay                1                0        Belgium   \n",
+       "13        Uruguay                4                0        Romania   \n",
+       "14      Argentina                3                1          Chile   \n",
+       "\n",
+       "   Win conditions  Attendance  Half-time Home Goals  Half-time Away Goals  \\\n",
+       "10                    42100.0                     3                     1   \n",
+       "11                    25466.0                     1                     0   \n",
+       "12                    12000.0                     1                     0   \n",
+       "13                    70022.0                     4                     0   \n",
+       "14                    41459.0                     2                     1   \n",
+       "\n",
+       "                    Referee               Assistant 1  \\\n",
+       "10     SAUCEDO Ulises (BOL)    ALONSO Gualberto (URU)   \n",
+       "11      BALWAY Thomas (FRA)  MATEUCCI Francisco (URU)   \n",
+       "12  VALLARINO Ricardo (URU)         MACIAS Jose (ARG)   \n",
+       "13      REGO Gilberto (BRA)     WARNKEN Alberto (CHI)   \n",
+       "14      LANGENUS Jean (BEL)     CRISTOPHE Henry (BEL)   \n",
+       "\n",
+       "                   Assistant 2  RoundID  MatchID Home Team Initials  \\\n",
+       "10  RADULESCU Constantin (ROU)      201     1086                ARG   \n",
+       "11        VALLEJO Gaspar (MEX)      201     1091                BRA   \n",
+       "12      LOMBARDI Domingo (URU)      201     1089                PAR   \n",
+       "13        SAUCEDO Ulises (BOL)      201     1100                URU   \n",
+       "14        SAUCEDO Ulises (BOL)      201     1084                ARG   \n",
+       "\n",
+       "   Away Team Initials  \n",
+       "10                MEX  \n",
+       "11                BOL  \n",
+       "12                BEL  \n",
+       "13                ROU  \n",
+       "14                CHI  "
+      ]
+     },
+     "execution_count": 361,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## Read world_cup.csv with pandas again\n",
+    "\n",
+    "world_cup = pd.read_csv(\"../data/world_cup.csv\")\n",
+    "\n",
+    "world_cup.iloc[10:15]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 255,
+   "metadata": {
+    "scrolled": true,
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>France</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>4444.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1096</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>18346.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1090</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Year              Datetime    Stage         Stadium         City  \\\n",
+       "0  1930  13 Jul 1930 - 15:00   Group 1         Pocitos  Montevideo    \n",
+       "1  1930  13 Jul 1930 - 15:00   Group 4  Parque Central  Montevideo    \n",
+       "\n",
+       "  Home Team Name  Home Team Goals  Away Team Goals Away Team Name  \\\n",
+       "0         France                4                1         Mexico   \n",
+       "1            USA                3                0        Belgium   \n",
+       "\n",
+       "  Win conditions  Attendance  Half-time Home Goals  Half-time Away Goals  \\\n",
+       "0                     4444.0                     3                     0   \n",
+       "1                    18346.0                     2                     0   \n",
+       "\n",
+       "                  Referee               Assistant 1            Assistant 2  \\\n",
+       "0  LOMBARDI Domingo (URU)     CRISTOPHE Henry (BEL)    REGO Gilberto (BRA)   \n",
+       "1       MACIAS Jose (ARG)  MATEUCCI Francisco (URU)  WARNKEN Alberto (CHI)   \n",
+       "\n",
+       "   RoundID  MatchID Home Team Initials Away Team Initials  \n",
+       "0      201     1096                FRA                MEX  \n",
+       "1      201     1090                USA                BEL  "
+      ]
+     },
+     "execution_count": 255,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "world_cup = pd.read_csv(\"../data/world_cup.csv\", encoding= 'utf-8')\n",
+    "world_cup.head(2)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "### Cleaning\n",
+    "\n",
+    "\n",
+    "__Renaming Columns__\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 355,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "['Year',\n",
+       " 'Datetime',\n",
+       " 'Stage',\n",
+       " 'Stadium',\n",
+       " 'City',\n",
+       " 'Home Team Name',\n",
+       " 'Home Team Goals',\n",
+       " 'Away Team Goals',\n",
+       " 'Away Team Name',\n",
+       " 'Win conditions',\n",
+       " 'Attendance',\n",
+       " 'Half-time Home Goals',\n",
+       " 'Half-time Away Goals',\n",
+       " 'Referee',\n",
+       " 'Assistant 1',\n",
+       " 'Assistant 2',\n",
+       " 'RoundID',\n",
+       " 'MatchID',\n",
+       " 'Home Team Initials',\n",
+       " 'Away Team Initials']"
+      ]
+     },
+     "execution_count": 355,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## Let's take a look at the column names\n",
+    "world_cup.columns.tolist()\n",
+    "## Try to Change the Column names"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 258,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['Year', 'Datetime', 'Stage', 'Stadium', 'City', 'Home Team Name', 'Home Team Goals', 'Away Team Goals', 'Away Team Name', 'Win conditions', 'Attendance', 'Half-time Home Goals', 'Half-time Away Goals', 'Referee', 'Assistant 1', 'Assistant 2', 'RoundID', 'MatchID', 'Home Team Initials', 'Away Team Initials'] "
+     ]
+    }
+   ],
+   "source": [
+    "print(world_cup.columns.tolist(), end =\" \")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 360,
+   "metadata": {
+    "scrolled": true,
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>HomeTeamName</th>\n",
+       "      <th>HomeTeamGoals</th>\n",
+       "      <th>AwayTeamGoals</th>\n",
+       "      <th>AwayTeamName</th>\n",
+       "      <th>Winconditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-timeHomeGoals</th>\n",
+       "      <th>Half-timeAwayGoals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant-1</th>\n",
+       "      <th>Assistant-2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>HomeTeamInitials</th>\n",
+       "      <th>AwayTeamInitials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>France</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>4444.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1096</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>18346.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1090</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>14 Jul 1930 - 12:45</td>\n",
+       "      <td>Group 2</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Yugoslavia</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td></td>\n",
+       "      <td>24059.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>TEJADA Anibal (URU)</td>\n",
+       "      <td>VALLARINO Ricardo (URU)</td>\n",
+       "      <td>BALWAY Thomas (FRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1093</td>\n",
+       "      <td>YUG</td>\n",
+       "      <td>BRA</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>14 Jul 1930 - 14:50</td>\n",
+       "      <td>Group 3</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Romania</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Peru</td>\n",
+       "      <td></td>\n",
+       "      <td>2549.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>LANGENUS Jean (BEL)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1098</td>\n",
+       "      <td>ROU</td>\n",
+       "      <td>PER</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>15 Jul 1930 - 16:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Argentina</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>France</td>\n",
+       "      <td></td>\n",
+       "      <td>23409.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>SAUCEDO Ulises (BOL)</td>\n",
+       "      <td>RADULESCU Constantin (ROU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1085</td>\n",
+       "      <td>ARG</td>\n",
+       "      <td>FRA</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Year              Datetime    Stage         Stadium         City  \\\n",
+       "0  1930  13 Jul 1930 - 15:00   Group 1         Pocitos  Montevideo    \n",
+       "1  1930  13 Jul 1930 - 15:00   Group 4  Parque Central  Montevideo    \n",
+       "2  1930  14 Jul 1930 - 12:45   Group 2  Parque Central  Montevideo    \n",
+       "3  1930  14 Jul 1930 - 14:50   Group 3         Pocitos  Montevideo    \n",
+       "4  1930  15 Jul 1930 - 16:00   Group 1  Parque Central  Montevideo    \n",
+       "\n",
+       "  HomeTeamName  HomeTeamGoals  AwayTeamGoals AwayTeamName Winconditions  \\\n",
+       "0       France              4              1       Mexico                 \n",
+       "1          USA              3              0      Belgium                 \n",
+       "2   Yugoslavia              2              1       Brazil                 \n",
+       "3      Romania              3              1         Peru                 \n",
+       "4    Argentina              1              0       France                 \n",
+       "\n",
+       "   Attendance  Half-timeHomeGoals  Half-timeAwayGoals                 Referee  \\\n",
+       "0      4444.0                   3                   0  LOMBARDI Domingo (URU)   \n",
+       "1     18346.0                   2                   0       MACIAS Jose (ARG)   \n",
+       "2     24059.0                   2                   0     TEJADA Anibal (URU)   \n",
+       "3      2549.0                   1                   0   WARNKEN Alberto (CHI)   \n",
+       "4     23409.0                   0                   0     REGO Gilberto (BRA)   \n",
+       "\n",
+       "                Assistant-1                 Assistant-2  RoundID  MatchID  \\\n",
+       "0     CRISTOPHE Henry (BEL)         REGO Gilberto (BRA)      201     1096   \n",
+       "1  MATEUCCI Francisco (URU)       WARNKEN Alberto (CHI)      201     1090   \n",
+       "2   VALLARINO Ricardo (URU)         BALWAY Thomas (FRA)      201     1093   \n",
+       "3       LANGENUS Jean (BEL)    MATEUCCI Francisco (URU)      201     1098   \n",
+       "4      SAUCEDO Ulises (BOL)  RADULESCU Constantin (ROU)      201     1085   \n",
+       "\n",
+       "  HomeTeamInitials AwayTeamInitials  \n",
+       "0              FRA              MEX  \n",
+       "1              USA              BEL  \n",
+       "2              YUG              BRA  \n",
+       "3              ROU              PER  \n",
+       "4              ARG              FRA  "
+      ]
+     },
+     "execution_count": 360,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "col_names = ['Year',\n",
+    " 'Datetime',\n",
+    " 'Stage',\n",
+    " 'Stadium',\n",
+    " 'City',\n",
+    " 'HomeTeamName',\n",
+    " 'HomeTeamGoals',\n",
+    " 'AwayTeamGoals',\n",
+    " 'AwayTeamName',\n",
+    " 'Winconditions',\n",
+    " 'Attendance',\n",
+    " 'Half-timeHomeGoals',\n",
+    " 'Half-timeAwayGoals',\n",
+    " 'Referee',\n",
+    " 'Assistant-1',\n",
+    " 'Assistant-2',\n",
+    " 'RoundID',\n",
+    " 'MatchID',\n",
+    " 'HomeTeamInitials',\n",
+    " 'AwayTeamInitials']\n",
+    "\n",
+    "world_cup.columns = col_names\n",
+    "\n",
+    "worl"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 369,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0           France\n",
+       "1              USA\n",
+       "2       Yugoslavia\n",
+       "3          Romania\n",
+       "4        Argentina\n",
+       "          ...     \n",
+       "847    Netherlands\n",
+       "848         Brazil\n",
+       "849    Netherlands\n",
+       "850         Brazil\n",
+       "851        Germany\n",
+       "Name: HomeTeamName, Length: 852, dtype: object"
+      ]
+     },
+     "execution_count": 369,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## method-1\n",
+    "world_cup_renamed = world_cup.rename(columns= lambda x: x.replace(\" \", \"\"))\n",
+    "\n",
+    "world_cup_renamed.HomeTeamName"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 373,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Year', 'Datetime', 'Stage', 'Stadium', 'City', 'HomeTeamName',\n",
+       "       'HomeTeamGoals', 'AwayTeamGoals', 'AwayTeamName', 'WinConditions',\n",
+       "       'Attendance', 'Half-TimeHomeGoals', 'Half-TimeAwayGoals', 'Referee',\n",
+       "       'Assistant1', 'Assistant2', 'Roundid', 'Matchid', 'HomeTeamInitials',\n",
+       "       'AwayTeamInitials'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 373,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## method-2\n",
+    "world_cup.columns.str.title().str.replace(\" \", \"\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 268,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "subslide"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "## method-3\n",
+    "world_cup.columns = col_names"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "source": [
+    "[More on Vectorized Str Methods](https://jakevdp.github.io/PythonDataScienceHandbook/03.10-working-with-strings.html)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__Missing Values__\n",
+    "\n",
+    "\n",
+    "- Detect them with `.info` method or we can use `.isna()` method\n",
+    "\n",
+    "- We can either delete them or replace them with `bfill`, `ffill`, `value`. This method is called imputation"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 374,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 852 entries, 0 to 851\n",
+      "Data columns (total 20 columns):\n",
+      " #   Column                Non-Null Count  Dtype  \n",
+      "---  ------                --------------  -----  \n",
+      " 0   Year                  852 non-null    int64  \n",
+      " 1   Datetime              852 non-null    object \n",
+      " 2   Stage                 852 non-null    object \n",
+      " 3   Stadium               852 non-null    object \n",
+      " 4   City                  852 non-null    object \n",
+      " 5   Home Team Name        852 non-null    object \n",
+      " 6   Home Team Goals       852 non-null    int64  \n",
+      " 7   Away Team Goals       852 non-null    int64  \n",
+      " 8   Away Team Name        852 non-null    object \n",
+      " 9   Win conditions        852 non-null    object \n",
+      " 10  Attendance            850 non-null    float64\n",
+      " 11  Half-time Home Goals  852 non-null    int64  \n",
+      " 12  Half-time Away Goals  852 non-null    int64  \n",
+      " 13  Referee               852 non-null    object \n",
+      " 14  Assistant 1           852 non-null    object \n",
+      " 15  Assistant 2           852 non-null    object \n",
+      " 16  RoundID               852 non-null    int64  \n",
+      " 17  MatchID               852 non-null    int64  \n",
+      " 18  Home Team Initials    852 non-null    object \n",
+      " 19  Away Team Initials    852 non-null    object \n",
+      "dtypes: float64(1), int64(7), object(12)\n",
+      "memory usage: 133.2+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "## let's use info method\n",
+    "world_cup.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 272,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "## world_cup.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 384,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>823</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>30 Jun 2014 - 17:00</td>\n",
+       "      <td>Round of 16</td>\n",
+       "      <td>Estadio Beira-Rio</td>\n",
+       "      <td>Porto Alegre</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Algeria</td>\n",
+       "      <td>Germany win after extra time</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>RICCI Sandro (BRA)</td>\n",
+       "      <td>DE CARVALHO Emerson (BRA)</td>\n",
+       "      <td>VAN GASSE Marcelo (BRA)</td>\n",
+       "      <td>255951</td>\n",
+       "      <td>300186460</td>\n",
+       "      <td>GER</td>\n",
+       "      <td>ALG</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>841</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>30 Jun 2014 - 17:00</td>\n",
+       "      <td>Round of 16</td>\n",
+       "      <td>Estadio Beira-Rio</td>\n",
+       "      <td>Porto Alegre</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Algeria</td>\n",
+       "      <td>Germany win after extra time</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>RICCI Sandro (BRA)</td>\n",
+       "      <td>DE CARVALHO Emerson (BRA)</td>\n",
+       "      <td>VAN GASSE Marcelo (BRA)</td>\n",
+       "      <td>255951</td>\n",
+       "      <td>300186460</td>\n",
+       "      <td>GER</td>\n",
+       "      <td>ALG</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Year              Datetime        Stage            Stadium  \\\n",
+       "823  2014  30 Jun 2014 - 17:00   Round of 16  Estadio Beira-Rio   \n",
+       "841  2014  30 Jun 2014 - 17:00   Round of 16  Estadio Beira-Rio   \n",
+       "\n",
+       "              City Home Team Name  Home Team Goals  Away Team Goals  \\\n",
+       "823  Porto Alegre         Germany                2                1   \n",
+       "841  Porto Alegre         Germany                2                1   \n",
+       "\n",
+       "    Away Team Name                 Win conditions  Attendance  \\\n",
+       "823        Algeria  Germany win after extra time          NaN   \n",
+       "841        Algeria  Germany win after extra time          NaN   \n",
+       "\n",
+       "     Half-time Home Goals  Half-time Away Goals             Referee  \\\n",
+       "823                     0                     0  RICCI Sandro (BRA)   \n",
+       "841                     0                     0  RICCI Sandro (BRA)   \n",
+       "\n",
+       "                   Assistant 1              Assistant 2  RoundID    MatchID  \\\n",
+       "823  DE CARVALHO Emerson (BRA)  VAN GASSE Marcelo (BRA)   255951  300186460   \n",
+       "841  DE CARVALHO Emerson (BRA)  VAN GASSE Marcelo (BRA)   255951  300186460   \n",
+       "\n",
+       "    Home Team Initials Away Team Initials  \n",
+       "823                GER                ALG  \n",
+       "841                GER                ALG  "
+      ]
+     },
+     "execution_count": 384,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## or we could use isna() method\n",
+    "boolean_mask = world_cup.Attendance.isna()\n",
+    "## this creates a boolean mask\n",
+    "\n",
+    "world_cup[boolean_mask]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>823</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>30 Jun 2014 - 17:00</td>\n",
+       "      <td>Round of 16</td>\n",
+       "      <td>Estadio Beira-Rio</td>\n",
+       "      <td>Porto Alegre</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Algeria</td>\n",
+       "      <td>Germany win after extra time</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>RICCI Sandro (BRA)</td>\n",
+       "      <td>DE CARVALHO Emerson (BRA)</td>\n",
+       "      <td>VAN GASSE Marcelo (BRA)</td>\n",
+       "      <td>255951</td>\n",
+       "      <td>300186460</td>\n",
+       "      <td>GER</td>\n",
+       "      <td>ALG</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>841</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>30 Jun 2014 - 17:00</td>\n",
+       "      <td>Round of 16</td>\n",
+       "      <td>Estadio Beira-Rio</td>\n",
+       "      <td>Porto Alegre</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Algeria</td>\n",
+       "      <td>Germany win after extra time</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>RICCI Sandro (BRA)</td>\n",
+       "      <td>DE CARVALHO Emerson (BRA)</td>\n",
+       "      <td>VAN GASSE Marcelo (BRA)</td>\n",
+       "      <td>255951</td>\n",
+       "      <td>300186460</td>\n",
+       "      <td>GER</td>\n",
+       "      <td>ALG</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Year              Datetime        Stage            Stadium  \\\n",
+       "823  2014  30 Jun 2014 - 17:00   Round of 16  Estadio Beira-Rio   \n",
+       "841  2014  30 Jun 2014 - 17:00   Round of 16  Estadio Beira-Rio   \n",
+       "\n",
+       "              City Home Team Name  Home Team Goals  Away Team Goals  \\\n",
+       "823  Porto Alegre         Germany                2                1   \n",
+       "841  Porto Alegre         Germany                2                1   \n",
+       "\n",
+       "    Away Team Name                 Win conditions  Attendance  \\\n",
+       "823        Algeria  Germany win after extra time          NaN   \n",
+       "841        Algeria  Germany win after extra time          NaN   \n",
+       "\n",
+       "     Half-time Home Goals  Half-time Away Goals             Referee  \\\n",
+       "823                     0                     0  RICCI Sandro (BRA)   \n",
+       "841                     0                     0  RICCI Sandro (BRA)   \n",
+       "\n",
+       "                   Assistant 1              Assistant 2  RoundID    MatchID  \\\n",
+       "823  DE CARVALHO Emerson (BRA)  VAN GASSE Marcelo (BRA)   255951  300186460   \n",
+       "841  DE CARVALHO Emerson (BRA)  VAN GASSE Marcelo (BRA)   255951  300186460   \n",
+       "\n",
+       "    Home Team Initials Away Team Initials  \n",
+       "823                GER                ALG  \n",
+       "841                GER                ALG  "
+      ]
+     },
+     "execution_count": 101,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## check whether there is any NaN values\n",
+    "world_cup[world_cup['Attendance'].isna()]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 410,
+   "metadata": {
+    "scrolled": true,
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>823</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>30 Jun 2014 - 17:00</td>\n",
+       "      <td>Round of 16</td>\n",
+       "      <td>Estadio Beira-Rio</td>\n",
+       "      <td>Porto Alegre</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Algeria</td>\n",
+       "      <td>Germany win after extra time</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>RICCI Sandro (BRA)</td>\n",
+       "      <td>DE CARVALHO Emerson (BRA)</td>\n",
+       "      <td>VAN GASSE Marcelo (BRA)</td>\n",
+       "      <td>255951</td>\n",
+       "      <td>300186460</td>\n",
+       "      <td>GER</td>\n",
+       "      <td>ALG</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Year              Datetime        Stage            Stadium  \\\n",
+       "823  2014  30 Jun 2014 - 17:00   Round of 16  Estadio Beira-Rio   \n",
+       "\n",
+       "              City Home Team Name  Home Team Goals  Away Team Goals  \\\n",
+       "823  Porto Alegre         Germany                2                1   \n",
+       "\n",
+       "    Away Team Name                 Win conditions  Attendance  \\\n",
+       "823        Algeria  Germany win after extra time          NaN   \n",
+       "\n",
+       "     Half-time Home Goals  Half-time Away Goals             Referee  \\\n",
+       "823                     0                     0  RICCI Sandro (BRA)   \n",
+       "\n",
+       "                   Assistant 1              Assistant 2  RoundID    MatchID  \\\n",
+       "823  DE CARVALHO Emerson (BRA)  VAN GASSE Marcelo (BRA)   255951  300186460   \n",
+       "\n",
+       "    Home Team Initials Away Team Initials  \n",
+       "823                GER                ALG  "
+      ]
+     },
+     "execution_count": 410,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## droping a row/column with NaN values\n",
+    "world_cup.dropna(axis = 'rows', inplace = True)\n",
+    "world_cup = pd.read_csv(\"../data/world_cup.csv\")\n",
+    "\n",
+    "world_cup.loc[[823]]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 407,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "41579.5"
+      ]
+     },
+     "execution_count": 407,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## Another way of dealing with missing values is to replace them with a value\n",
+    "world_cup.Attendance.fillna(world_cup.Attendance.median()).loc[841]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 416,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "67882.0"
+      ]
+     },
+     "execution_count": 416,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "\n",
+    "## or we can fill them with the last proper values or next proper value\n",
+    "world_cup.Attendance.fillna(method = 'pad').loc[823]\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__Anomalies__\n",
+    "\n",
+    "Sometimes appearance misleads!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 430,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Year</th>\n",
+       "      <th>Datetime</th>\n",
+       "      <th>Stage</th>\n",
+       "      <th>Stadium</th>\n",
+       "      <th>City</th>\n",
+       "      <th>Home Team Name</th>\n",
+       "      <th>Home Team Goals</th>\n",
+       "      <th>Away Team Goals</th>\n",
+       "      <th>Away Team Name</th>\n",
+       "      <th>Win conditions</th>\n",
+       "      <th>Attendance</th>\n",
+       "      <th>Half-time Home Goals</th>\n",
+       "      <th>Half-time Away Goals</th>\n",
+       "      <th>Referee</th>\n",
+       "      <th>Assistant 1</th>\n",
+       "      <th>Assistant 2</th>\n",
+       "      <th>RoundID</th>\n",
+       "      <th>MatchID</th>\n",
+       "      <th>Home Team Initials</th>\n",
+       "      <th>Away Team Initials</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>France</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Mexico</td>\n",
+       "      <td></td>\n",
+       "      <td>4444.0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>LOMBARDI Domingo (URU)</td>\n",
+       "      <td>CRISTOPHE Henry (BEL)</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1096</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>MEX</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>13 Jul 1930 - 15:00</td>\n",
+       "      <td>Group 4</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>18346.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>MACIAS Jose (ARG)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1090</td>\n",
+       "      <td>USA</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>14 Jul 1930 - 12:45</td>\n",
+       "      <td>Group 2</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Yugoslavia</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td></td>\n",
+       "      <td>24059.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "      <td>TEJADA Anibal (URU)</td>\n",
+       "      <td>VALLARINO Ricardo (URU)</td>\n",
+       "      <td>BALWAY Thomas (FRA)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1093</td>\n",
+       "      <td>YUG</td>\n",
+       "      <td>BRA</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>14 Jul 1930 - 14:50</td>\n",
+       "      <td>Group 3</td>\n",
+       "      <td>Pocitos</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Romania</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Peru</td>\n",
+       "      <td></td>\n",
+       "      <td>2549.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>WARNKEN Alberto (CHI)</td>\n",
+       "      <td>LANGENUS Jean (BEL)</td>\n",
+       "      <td>MATEUCCI Francisco (URU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1098</td>\n",
+       "      <td>ROU</td>\n",
+       "      <td>PER</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>1930</td>\n",
+       "      <td>15 Jul 1930 - 16:00</td>\n",
+       "      <td>Group 1</td>\n",
+       "      <td>Parque Central</td>\n",
+       "      <td>Montevideo</td>\n",
+       "      <td>Argentina</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>France</td>\n",
+       "      <td></td>\n",
+       "      <td>23409.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>REGO Gilberto (BRA)</td>\n",
+       "      <td>SAUCEDO Ulises (BOL)</td>\n",
+       "      <td>RADULESCU Constantin (ROU)</td>\n",
+       "      <td>201</td>\n",
+       "      <td>1085</td>\n",
+       "      <td>ARG</td>\n",
+       "      <td>FRA</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>844</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>04 Jul 2014 - 13:00</td>\n",
+       "      <td>Quarter-finals</td>\n",
+       "      <td>Estadio do Maracana</td>\n",
+       "      <td>Rio De Janeiro</td>\n",
+       "      <td>France</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td></td>\n",
+       "      <td>74240.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>PITANA Nestor (ARG)</td>\n",
+       "      <td>MAIDANA Hernan (ARG)</td>\n",
+       "      <td>BELATTI Juan Pablo (ARG)</td>\n",
+       "      <td>255953</td>\n",
+       "      <td>300186485</td>\n",
+       "      <td>FRA</td>\n",
+       "      <td>GER</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>845</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>04 Jul 2014 - 17:00</td>\n",
+       "      <td>Quarter-finals</td>\n",
+       "      <td>Estadio Castelao</td>\n",
+       "      <td>Fortaleza</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Colombia</td>\n",
+       "      <td></td>\n",
+       "      <td>60342.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Carlos VELASCO CARBALLO (ESP)</td>\n",
+       "      <td>ALONSO FERNANDEZ Roberto (ESP)</td>\n",
+       "      <td>YUSTE Juan (ESP)</td>\n",
+       "      <td>255953</td>\n",
+       "      <td>300186461</td>\n",
+       "      <td>BRA</td>\n",
+       "      <td>COL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>846</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>05 Jul 2014 - 13:00</td>\n",
+       "      <td>Quarter-finals</td>\n",
+       "      <td>Estadio Nacional</td>\n",
+       "      <td>Brasilia</td>\n",
+       "      <td>Argentina</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Belgium</td>\n",
+       "      <td></td>\n",
+       "      <td>68551.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Nicola RIZZOLI (ITA)</td>\n",
+       "      <td>Renato FAVERANI (ITA)</td>\n",
+       "      <td>Andrea STEFANI (ITA)</td>\n",
+       "      <td>255953</td>\n",
+       "      <td>300186504</td>\n",
+       "      <td>ARG</td>\n",
+       "      <td>BEL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>848</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>08 Jul 2014 - 17:00</td>\n",
+       "      <td>Semi-finals</td>\n",
+       "      <td>Estadio Mineirao</td>\n",
+       "      <td>Belo Horizonte</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td>1</td>\n",
+       "      <td>7</td>\n",
+       "      <td>Germany</td>\n",
+       "      <td></td>\n",
+       "      <td>58141.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>5</td>\n",
+       "      <td>RODRIGUEZ Marco (MEX)</td>\n",
+       "      <td>TORRENTERA Marvin (MEX)</td>\n",
+       "      <td>QUINTERO Marcos (MEX)</td>\n",
+       "      <td>255955</td>\n",
+       "      <td>300186474</td>\n",
+       "      <td>BRA</td>\n",
+       "      <td>GER</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>850</th>\n",
+       "      <td>2014</td>\n",
+       "      <td>12 Jul 2014 - 17:00</td>\n",
+       "      <td>Play-off for third place</td>\n",
+       "      <td>Estadio Nacional</td>\n",
+       "      <td>Brasilia</td>\n",
+       "      <td>Brazil</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>Netherlands</td>\n",
+       "      <td></td>\n",
+       "      <td>68034.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>HAIMOUDI Djamel (ALG)</td>\n",
+       "      <td>ACHIK Redouane (MAR)</td>\n",
+       "      <td>ETCHIALI Abdelhak (ALG)</td>\n",
+       "      <td>255957</td>\n",
+       "      <td>300186502</td>\n",
+       "      <td>BRA</td>\n",
+       "      <td>NED</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>787 rows × 20 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Year              Datetime                     Stage  \\\n",
+       "0    1930  13 Jul 1930 - 15:00                    Group 1   \n",
+       "1    1930  13 Jul 1930 - 15:00                    Group 4   \n",
+       "2    1930  14 Jul 1930 - 12:45                    Group 2   \n",
+       "3    1930  14 Jul 1930 - 14:50                    Group 3   \n",
+       "4    1930  15 Jul 1930 - 16:00                    Group 1   \n",
+       "..    ...                   ...                       ...   \n",
+       "844  2014  04 Jul 2014 - 13:00             Quarter-finals   \n",
+       "845  2014  04 Jul 2014 - 17:00             Quarter-finals   \n",
+       "846  2014  05 Jul 2014 - 13:00             Quarter-finals   \n",
+       "848  2014  08 Jul 2014 - 17:00                Semi-finals   \n",
+       "850  2014  12 Jul 2014 - 17:00   Play-off for third place   \n",
+       "\n",
+       "                 Stadium             City Home Team Name  Home Team Goals  \\\n",
+       "0                Pocitos      Montevideo          France                4   \n",
+       "1         Parque Central      Montevideo             USA                3   \n",
+       "2         Parque Central      Montevideo      Yugoslavia                2   \n",
+       "3                Pocitos      Montevideo         Romania                3   \n",
+       "4         Parque Central      Montevideo       Argentina                1   \n",
+       "..                   ...              ...            ...              ...   \n",
+       "844  Estadio do Maracana  Rio De Janeiro          France                0   \n",
+       "845     Estadio Castelao       Fortaleza          Brazil                2   \n",
+       "846     Estadio Nacional        Brasilia       Argentina                1   \n",
+       "848     Estadio Mineirao  Belo Horizonte          Brazil                1   \n",
+       "850     Estadio Nacional        Brasilia          Brazil                0   \n",
+       "\n",
+       "     Away Team Goals Away Team Name Win conditions  Attendance  \\\n",
+       "0                  1         Mexico                     4444.0   \n",
+       "1                  0        Belgium                    18346.0   \n",
+       "2                  1         Brazil                    24059.0   \n",
+       "3                  1           Peru                     2549.0   \n",
+       "4                  0         France                    23409.0   \n",
+       "..               ...            ...            ...         ...   \n",
+       "844                1        Germany                    74240.0   \n",
+       "845                1       Colombia                    60342.0   \n",
+       "846                0        Belgium                    68551.0   \n",
+       "848                7        Germany                    58141.0   \n",
+       "850                3    Netherlands                    68034.0   \n",
+       "\n",
+       "     Half-time Home Goals  Half-time Away Goals  \\\n",
+       "0                       3                     0   \n",
+       "1                       2                     0   \n",
+       "2                       2                     0   \n",
+       "3                       1                     0   \n",
+       "4                       0                     0   \n",
+       "..                    ...                   ...   \n",
+       "844                     0                     1   \n",
+       "845                     1                     0   \n",
+       "846                     1                     0   \n",
+       "848                     0                     5   \n",
+       "850                     0                     2   \n",
+       "\n",
+       "                           Referee                     Assistant 1  \\\n",
+       "0           LOMBARDI Domingo (URU)           CRISTOPHE Henry (BEL)   \n",
+       "1                MACIAS Jose (ARG)        MATEUCCI Francisco (URU)   \n",
+       "2              TEJADA Anibal (URU)         VALLARINO Ricardo (URU)   \n",
+       "3            WARNKEN Alberto (CHI)             LANGENUS Jean (BEL)   \n",
+       "4              REGO Gilberto (BRA)            SAUCEDO Ulises (BOL)   \n",
+       "..                             ...                             ...   \n",
+       "844            PITANA Nestor (ARG)            MAIDANA Hernan (ARG)   \n",
+       "845  Carlos VELASCO CARBALLO (ESP)  ALONSO FERNANDEZ Roberto (ESP)   \n",
+       "846           Nicola RIZZOLI (ITA)           Renato FAVERANI (ITA)   \n",
+       "848          RODRIGUEZ Marco (MEX)         TORRENTERA Marvin (MEX)   \n",
+       "850          HAIMOUDI Djamel (ALG)            ACHIK Redouane (MAR)   \n",
+       "\n",
+       "                    Assistant 2  RoundID    MatchID Home Team Initials  \\\n",
+       "0           REGO Gilberto (BRA)      201       1096                FRA   \n",
+       "1         WARNKEN Alberto (CHI)      201       1090                USA   \n",
+       "2           BALWAY Thomas (FRA)      201       1093                YUG   \n",
+       "3      MATEUCCI Francisco (URU)      201       1098                ROU   \n",
+       "4    RADULESCU Constantin (ROU)      201       1085                ARG   \n",
+       "..                          ...      ...        ...                ...   \n",
+       "844    BELATTI Juan Pablo (ARG)   255953  300186485                FRA   \n",
+       "845            YUSTE Juan (ESP)   255953  300186461                BRA   \n",
+       "846        Andrea STEFANI (ITA)   255953  300186504                ARG   \n",
+       "848       QUINTERO Marcos (MEX)   255955  300186474                BRA   \n",
+       "850     ETCHIALI Abdelhak (ALG)   255957  300186502                BRA   \n",
+       "\n",
+       "    Away Team Initials  \n",
+       "0                  MEX  \n",
+       "1                  BEL  \n",
+       "2                  BRA  \n",
+       "3                  PER  \n",
+       "4                  FRA  \n",
+       "..                 ...  \n",
+       "844                GER  \n",
+       "845                COL  \n",
+       "846                BEL  \n",
+       "848                GER  \n",
+       "850                NED  \n",
+       "\n",
+       "[787 rows x 20 columns]"
+      ]
+     },
+     "execution_count": 430,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "## check the WinConditions value for index = 837\n",
+    "world_cup.loc[837][\"Win conditions\"]\n",
+    "## now find all such values\n",
+    "boolean_mask = world_cup[\"Win conditions\"] == \" \"\n",
+    "\n",
+    "world_cup[boolean_mask]\n",
+    "\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 428,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Year                                       2014\n",
+       "Datetime                   28 Jun 2014 - 17:00 \n",
+       "Stage                               Round of 16\n",
+       "Stadium                     Estadio do Maracana\n",
+       "City                            Rio De Janeiro \n",
+       "Home Team Name                         Colombia\n",
+       "Home Team Goals                               2\n",
+       "Away Team Goals                               0\n",
+       "Away Team Name                          Uruguay\n",
+       "Win conditions                                 \n",
+       "Attendance                                73804\n",
+       "Half-time Home Goals                          1\n",
+       "Half-time Away Goals                          0\n",
+       "Referee                     Bj�rn KUIPERS (NED)\n",
+       "Assistant 1             Sander VAN ROEKEL (NED)\n",
+       "Assistant 2                Erwin ZEINSTRA (NED)\n",
+       "RoundID                                  255951\n",
+       "MatchID                               300186491\n",
+       "Home Team Initials                          COL\n",
+       "Away Team Initials                          URU\n",
+       "Name: 837, dtype: object"
+      ]
+     },
+     "execution_count": 428,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "world_cup.loc[837]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 283,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "' '"
+      ]
+     },
+     "execution_count": 283,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "world_cup.iloc[837]['WinConditions']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 286,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "world_cup[~(world_cup.WinConditions == \" \")];"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 431,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x7fbf74e70130>"
+      ]
+     },
+     "execution_count": 431,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "## Another possible anomally can happen with continuous values\n",
+    "world_cup.Attendance.plot(kind = 'box')\n",
+    "## We can check the box plots for these columns\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 290,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "notes"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x7fbf85a91790>"
+      ]
+     },
+     "execution_count": 290,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "world_cup.Attendance.plot(kind = 'box')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 291,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "def bigger_than_100K(attendance):\n",
+    "    if attendance > 100000:\n",
+    "        return 100000\n",
+    "    else:\n",
+    "        return attendance"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 292,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "world_cup.Attendance = world_cup.Attendance.map(bigger_than_100K )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 293,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.axes._subplots.AxesSubplot at 0x7fbf86f5bee0>"
+      ]
+     },
+     "execution_count": 293,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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\n",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "world_cup.Attendance.plot(kind = 'box')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "__Dates and Times__"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 297,
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "from datetime import datetime\n",
+    "world_cup.Datetime = pd.to_datetime(world_cup.Datetime)\n",
+    "\n",
+    "world_cup[world_cup.Datetime > \"2010-01\"];"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## Review"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "slideshow": {
+     "slide_type": "slide"
+    }
+   },
+   "source": [
+    "## Extra Resources\n",
+    "\n",
+    "- [Common File Formats Used in Data Science](https://www.weirdgeek.com/2018/12/common-file-formats-used-in-data-science/)\n",
+    "\n",
+    "- [The Basics of Data Prep](https://towardsdatascience.com/the-basics-of-data-prep-7bb5f3af77ac)\n",
+    "\n",
+    "- [Structured, Semi-Structured, Unstructured Data](https://jeremyronk.wordpress.com/2014/09/01/structured-semi-structured-and-unstructured-data/)\n",
+    "\n",
+    "- [Is CSV Structured Data?](https://www.quora.com/Is-CSV-structured-data?share=1)\n",
+    "\n",
+    "- [From Raw Data to Data Science](https://www.infoq.com/articles/raw-data-to-data-science/)\n",
+    "\n",
+    "- [XML Processing with Python](https://www.tutorialspoint.com/python/python_xml_processing.htm)\n",
+    "\n",
+    "- [Difference Between XML and HTML](https://techdifferences.com/difference-between-xml-and-html.html)\n",
+    "\n",
+    "- [Utf-8, Utf-16, Unicode Explained](https://kunststube.net/encoding/)\n",
+    "\n",
+    "- [Dealing with Character Encodings](https://www.kaggle.com/rtatman/data-cleaning-challenge-character-encodings)\n",
+    "\n",
+    "- [Washington Post: Police Shootings](https://github.com/washingtonpost/data-police-shootings)"
+   ]
+  }
+ ],
+ "metadata": {
+  "celltoolbar": "Slideshow",
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
