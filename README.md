@@ -19,4 +19,4 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 
 [Homework-2: Due to Week-7: October 8th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Homework-2.pdf)
 
-[Project-1: Due to Week-10: October 29th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Project-1.pdf)
+[Project-1: Due to Week-10: October 29th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Project-1.ipynb)
