@@ -26,7 +26,9 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 [The detailed rubric for project-1](https://docs.google.com/spreadsheets/d/12fxQ58c6UHbPmqPoVGYTe0gGdRJeKx3qOYv7IimDSFc/edit?usp=sharing)
 
 Homework-3: Due to Week-12: November 12th by 4:30PM
+
 Details will be submitted.
 
 Final Project: Due to Week-15: December 3rd by 4:30PM
+
 Details will be submitted
