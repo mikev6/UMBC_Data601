@@ -23,6 +23,8 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 
 [The detailed rubric for HW-2](https://docs.google.com/spreadsheets/d/1i8STO4J76A6X4ht4RTMNe1_0oQaM8iiVd7HHd4LCqNA/edit?usp=sharing)
 
+[Google Form for HW-2 Submissions](https://forms.gle/jGT56nvj2w7L98CQ7)
+
 [Project-1: Due to Week-10: October 29th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Project-1.ipynb)
 
 [The detailed rubric for project-1](https://docs.google.com/spreadsheets/d/12fxQ58c6UHbPmqPoVGYTe0gGdRJeKx3qOYv7IimDSFc/edit?usp=sharing)
