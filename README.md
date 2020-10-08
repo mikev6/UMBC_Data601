@@ -1,7 +1,9 @@
 # UMBC_Data601
-Hello Everyone! Here I will be sharing course notes for UMBC DATA 601 Fall 2020
+Hello Everyone! Here I will be sharing course materials for UMBC DATA 601 Fall 2020
 
-----
+# Syllabus
+
+[Syllabus](syllabus/Data601_Fall20.pdf)
 
 # General Information
 
