@@ -34,7 +34,7 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 [Google Form for project-I submissions](https://forms.gle/koZzP6TNRB8YAu8G7)
 
 ## Homework-3 (10 points)
-Homework-3: Due to Week-12: November 12th by 4:30PM
+Homework-3: Cancelled. Details will be explained on Thursday (11/05) lecture.
 
 Details will be submitted.
 
