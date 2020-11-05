@@ -22,7 +22,7 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 
 [Homework-2: Due to Week-7: October 8th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Homework-2.pdf)
 
-[The detailed rubric for HW-2](https://docs.google.com/spreadsheets/d/1i8STO4J76A6X4ht4RTMNe1_0oQaM8iiVd7HHd4LCqNA/edit?usp=sharing)
+[The detailed rubric for HW-2](https://docs.google.com/spreadsheets/d/1kuma45-lOMUMrWCzKynlISBmVHBBRN92fAvO0_a5zNk/edit?usp=sharing)
 
 [Google Form for HW-2 Submissions](https://forms.gle/jGT56nvj2w7L98CQ7)
 
@@ -34,7 +34,7 @@ Meetings: 4:30 - 7:00 PM Online: Blackboard Collaborate
 [Google Form for project-I submissions](https://forms.gle/koZzP6TNRB8YAu8G7)
 
 ## Homework-3 (10 points)
-Homework-3: Due to Week-12: November 12th by 4:30PM
+Homework-3: Cancelled. Details will be explained on Thursday (11/05) lecture.
 
 Details will be submitted.
 
