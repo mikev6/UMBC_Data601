@@ -7,21 +7,23 @@ Hello Everyone! Here I will be sharing course materials for UMBC DATA 601 Fall 2
 
 # Assignments
 
-## Final Project (30 points)
+__Final Project (30 points)__
 [Final Project: Due to December 8th at 9:00 AM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Final_Project.ipynb)
 
-## Homework-3 (10 points)
+__Homework-3 (10 points)__
 
 We cancelled the homework 3. Everyone will be automatically assigned 10 full points for this homework.
 
-## Midterm Project (30 points)
+__Midterm Project (30 points)__
+
 [Project-1: Due to Week-10: October 29th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Project-1.ipynb)
 
 [The detailed rubric for project-1](https://docs.google.com/spreadsheets/d/12fxQ58c6UHbPmqPoVGYTe0gGdRJeKx3qOYv7IimDSFc/edit?usp=sharing)
 
 [Google Form for project-I submissions](https://forms.gle/koZzP6TNRB8YAu8G7)
 
-## Homework-2: API and Web Scraping (10 Points)
+__Homework-2: API and Web Scraping (10 Points)__
+
 [Homework-2: Due to Week-7: October 8th by 4:30PM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Homework-2.pdf)
 
 [The detailed rubric for HW-2](https://docs.google.com/spreadsheets/d/1kuma45-lOMUMrWCzKynlISBmVHBBRN92fAvO0_a5zNk/edit?usp=sharing)
