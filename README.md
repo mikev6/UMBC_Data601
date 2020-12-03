@@ -10,6 +10,8 @@ __Final Project (30 points)__
 
 [Final Project: Due to December 8th at 9:00 AM](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Data601-Final_Project.ipynb)
 
+[Google Form for Final Project Submissions](https://forms.gle/RAWi7HmG5zXCRGPF9)
+
 ----
 __Homework-3 (10 points)__
 
