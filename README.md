@@ -12,6 +12,8 @@ __Final Project (30 points)__
 
 [Google Form for Final Project Submissions](https://forms.gle/RAWi7HmG5zXCRGPF9)
 
+[Final Project Report Template](https://github.com/mguner/UMBC_Data601/blob/master/assignments/Final%20Project%20Report%20Template.ipynb)
+
 ----
 __Homework-3 (10 points)__
 
